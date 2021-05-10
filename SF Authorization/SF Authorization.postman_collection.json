@@ -1,0 +1,97 @@
+{
+	"info": {
+		"_postman_id": "759eefbd-4cba-41ef-978c-da11e82d097e",
+		"name": "SF Authorization",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get Service Cloud AuthToken",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"pm.globals.set(\"access_token\", jsonData.access_token);\r",
+							"console.log(\"access_token: \"+pm.variables.get(\"access_token\"));\r",
+							"\r",
+							"pm.test(\"Status code is 200\", () => {\r",
+							"  pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Get Access Token\", () => {\r",
+							"  const responseJson = pm.response.json();\r",
+							"  pm.expect(responseJson.access_token).to.exist;\r",
+							"  pm.expect(responseJson.access_token).to.not.be.null;\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://{{authTokenUrl}}/services/oauth2/token?grant_type=password&client_id={{CONSUMER_KEY}}&client_secret={{CONSUMER_SECRET}}&username={{SF_USERNAME}}&password={{SF_PASSWORD}}{{SF_SECURITY_TOKEN}}",
+					"protocol": "https",
+					"host": [
+						"{{authTokenUrl}}"
+					],
+					"path": [
+						"services",
+						"oauth2",
+						"token"
+					],
+					"query": [
+						{
+							"key": "grant_type",
+							"value": "password"
+						},
+						{
+							"key": "client_id",
+							"value": "{{CONSUMER_KEY}}"
+						},
+						{
+							"key": "client_secret",
+							"value": "{{CONSUMER_SECRET}}"
+						},
+						{
+							"key": "username",
+							"value": "{{SF_USERNAME}}"
+						},
+						{
+							"key": "password",
+							"value": "{{SF_PASSWORD}}{{SF_SECURITY_TOKEN}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer"
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
